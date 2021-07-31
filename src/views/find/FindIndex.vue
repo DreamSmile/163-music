@@ -26,7 +26,9 @@
           <span>推荐歌单</span>
         </div>
         <div class="box_edit">
-          <button>更多<i class="iconfont more">&#xe629;</i></button>
+          <button>更多
+            <van-icon name="arrow" />
+          </button>
         </div>
       </div>
       <div class="recommend_list">
@@ -64,7 +66,7 @@
           <span>欢快古风恰是少年时</span>
         </div>
         <div class="box_edit">
-          <button><i class="iconfont">&#xe63a;</i>更多</button>
+          <button><van-icon name="play" />更多</button>
         </div>
       </div>
       <div class="list">
@@ -143,7 +145,7 @@
         background-color: transparent;
         font-size: 12px;
         i {
-          vertical-align: middle;
+          vertical-align: -2px;
           font-size: 14px;
           color: #333;
         }
@@ -190,6 +192,7 @@
     background-color: #fff;
     border-radius: 0px 0px 8px 8px;
     padding-top: 14px;
+    padding-bottom: 12px;
     .rec_header {
       padding: 0 14px;
     }
@@ -206,6 +209,7 @@
           height: 100px;
           border-radius: 8px;
           position: relative;
+          overflow: hidden;
           img {
             width: 100%;
           }
@@ -266,6 +270,8 @@
             height: 56px;
             position: relative;
             margin-right: 10px;
+            border-radius: 8px;
+            overflow: hidden;
             img {
               width: 100%;
             }

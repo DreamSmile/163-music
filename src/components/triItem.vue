@@ -68,6 +68,7 @@
     margin-bottom: 16px;
     font-size: 14px;
     box-sizing: border-box;
+    overflow: hidden;
     .show_photo {
       position: relative;
       img {
