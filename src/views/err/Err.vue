@@ -1,6 +1,6 @@
 <template>
   <div class="err">
-    <van-empty image="error" :description="null|| '出错啦~'" />
+    <van-empty image="error" :description="$route.query.msg|| '出错啦~'" />
     <router-link to="/loginIndex">登录界面</router-link>
     <router-link to="/findIndex">游客界面</router-link>
   </div>

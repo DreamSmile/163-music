@@ -4,7 +4,7 @@
       <i @click="showUser=true" class="iconfont ">&#xe664;</i>
     </van-badge>
     <div class="content">
-      <div class="search">
+      <div class="search" @click="goSearch">
         <!-- <i class="iconfont">&#xe617;</i> -->
         <input v-show="page=='FindIndex'" type="text" placeholder="请输入音乐关键词~" />
       </div>
@@ -19,7 +19,7 @@
     </div>
     <div class="right">
       <div class="add_icon" v-show="page=='FindIndex' || page=='TribeIndex'"><i class="iconfont">&#xe617;</i></div>
-      <div class="search_icon" v-show="page=='MyIndex'"><i class="iconfont">&#xe623;</i></div>
+      <div @click="goSearch" class="search_icon" v-show="page=='MyIndex'"><i class="iconfont">&#xe623;</i></div>
     </div>
     <!-- 顶部左侧弹出用户设置信息 -->
     <van-popup v-model="showUser" get-container="body" position="left" :style="{ width: '80%',height:'100%' }">
@@ -122,6 +122,10 @@ export default {
     // tab更换
     tabChange(num) {
       this.tribe_sel = num;
+    },
+    // 去搜索界面
+    goSearch() {
+      this.$router.push("/searchIndex");
     },
   },
 };
