@@ -20,17 +20,18 @@ a,ins,s,u,del{text-decoration:none}
 sup,sub{vertical-align:baseline}
 html {overflow-x: hidden;height: 100%;font-size: 100px;-webkit-tap-highlight-color: transparent;}
 body {height:100%;color: #333;font-size: 14px;line-height: 1.429;-webkit-text-size-adjust: none;}
-hr {border:none;background-color:#ebebeb;height:1px;margin:0}
+hr {border:none;background-color:#ebedf0;height:1px;margin:0}
 a {color: #333333;text-decoration: none;}
 
 .photo{background-size: cover;background-position: 50%;background-color:#ddd}
 .clear_float::after{content: "";height:0;visibility: hidden;clear: both;display: block;}
 ::-webkit-scrollbar {width: 0;height: 0;background: transparent;}
+
 @font-face {
   font-family: 'iconfont';  /* Project id 2706489 */
-  src: url('//at.alicdn.com/t/font_2706489_qktrvqv7t6r.woff2?t=1627890308593') format('woff2'),
-       url('//at.alicdn.com/t/font_2706489_qktrvqv7t6r.woff?t=1627890308593') format('woff'),
-       url('//at.alicdn.com/t/font_2706489_qktrvqv7t6r.ttf?t=1627890308593') format('truetype');
+  src: url('//at.alicdn.com/t/font_2706489_8a06551d8ew.woff2?t=1628321448790') format('woff2'),
+       url('//at.alicdn.com/t/font_2706489_8a06551d8ew.woff?t=1628321448790') format('woff'),
+       url('//at.alicdn.com/t/font_2706489_8a06551d8ew.ttf?t=1628321448790') format('truetype');
 }
   .iconfont {
     font-family: "iconfont" !important;

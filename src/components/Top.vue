@@ -4,9 +4,10 @@
       <i @click="showUser=true" class="iconfont ">&#xe664;</i>
     </van-badge>
     <div class="content">
-      <div class="search" @click="goSearch">
-        <!-- <i class="iconfont">&#xe617;</i> -->
-        <input v-show="page=='FindIndex'" type="text" placeholder="请输入音乐关键词~" />
+      <div class="search" v-show="page=='FindIndex'" @click="goSearch">
+        <i class="iconfont">&#xe623;</i>
+        <span>请输入音乐关键词</span>
+        <!-- <input  type="text" placeholder="请输入音乐关键词~" /> -->
       </div>
       <div class="tribe_box" v-show="page=='TribeIndex'">
         <van-badge :content="5">
@@ -49,16 +50,17 @@
     box-sizing: border-box;
     .search {
       position: relative;
+      background-color: #fff;
+      border-radius: 99px;
+      color: @font-msg-color;
       i {
         position: absolute;
         left: 10px;
-        top: 10px;
+        top: 2px;
       }
-      input {
-        border-radius: 99px;
-        width: calc(100% - 20px);
-        padding: 6px 0;
-        padding-left: 20px;
+      span {
+        display: inline-block;
+        padding: 4px 0 4px 30px;
       }
     }
     .tribe_box {

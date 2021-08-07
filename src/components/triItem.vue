@@ -207,7 +207,6 @@ export default {
     async setItem() {
       if (this.itemList.length > this.num) {
         await new Promise((resolve, reject) => {
-          setTimeout(() => {
             let left = this.$refs.left.clientHeight;
             let right = this.$refs.right.clientHeight;
             if (right > left) {
@@ -217,7 +216,6 @@ export default {
             }
             this.num++;
             resolve();
-          }, 500);
         });
         this.setItem();
       } else {

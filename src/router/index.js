@@ -9,6 +9,7 @@ const loginPCode = r => require.ensure([], () => r(require('@/views/login/LoginP
 
 // 发现
 const findIndex = r => require.ensure([], () => r(require('@/views/find/FindIndex')), 'findIndex');
+const ranking = r => require.ensure([], () => r(require('@/views/find/Ranking')), 'ranking');
 
 // 云村
 const tribeIndex = r => require.ensure([], () => r(require('@/views/tribe/TribeIndex')), 'tribeIndex');
@@ -21,6 +22,11 @@ const searchIndex = r => require.ensure([], () => r(require('@/views/search/Sear
 // 音乐播放界面
 const playIndex = r => require.ensure([], () => r(require('@/views/play/PlayIndex')), 'playIndex');
 
+// 歌单
+const sheetDetail = r => require.ensure([], () => r(require('@/views/sheet/SheetDetail')), 'SheetDetail');
+
+// 设置
+const about = r => require.ensure([], () => (require('@/views/set/About')), 'about');
 
 // 错误界面
 const err = r => require.ensure([], () => r(require('@/views/err/Err')), 'err');
@@ -50,17 +56,22 @@ const routes = [
     path: '/findIndex',
     name: 'FindIndex',
     component: findIndex,
-    meta: { title: '发现', mname: '发现主页面', hasTab: true }
+    meta: { keepalive: false, title: '发现', mname: '发现主页面', hasTab: true }
+  }, {
+    path: '/ranking',
+    name: 'Ranking',
+    component: ranking,
+    meta: { title: '排行榜', mname: '发现页中的排行榜', hasTab: false }
   }, {
     path: '/myIndex',
     name: 'MyIndex',
     component: myIndex,
-    meta: { title: '我的', mname: '我的主页面', hasTab: true }
+    meta: { keepalive: false, title: '我的', mname: '我的主页面', hasTab: true }
   }, {
     path: '/tribeIndex',
     name: 'TribeIndex',
     component: tribeIndex,
-    meta: { title: '云村', mname: '云村主页面', hasTab: true }
+    meta: { keepalive: false, title: '云村', mname: '云村主页面', hasTab: true }
   }, {
     path: '/searchIndex',
     name: 'SearchIndex',
@@ -71,6 +82,16 @@ const routes = [
     name: 'PlayIndex',
     component: playIndex,
     meta: { title: '音乐播放', mname: '播放音乐主界面', hasTab: false }
+  }, {
+    path: '/sheetDetail',
+    name: 'SheetDetail',
+    component: sheetDetail,
+    meta: { title: '歌单详情', mname: '歌单详情展示页', hasTab: false }
+  }, {
+    path: '/about',
+    name: 'About',
+    component: about,
+    meta: { title: '关于我们', mname: '关于我们' }
   },
   {
     path: '/err',

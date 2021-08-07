@@ -14,7 +14,12 @@
         </van-tab>
       </van-tabs>
     </div>
-
+    <!-- 底部tab -->
+    <van-tabbar v-model="active" active-color="#ee0a24" route>
+      <van-tabbar-item name="FindIndex" replace :to="{path:'/findIndex',query:{isUseTab:true}}" icon="home-o">发现</van-tabbar-item>
+      <van-tabbar-item name="TribeIndex" replace :to="{path:'/tribeIndex',query:{isUseTab:true}}" icon="friends-o">云村</van-tabbar-item>
+      <van-tabbar-item name="MyIndex" replace :to="{path:'/myIndex',query:{isUseTab:true}}" icon="setting-o">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 <style scoped lang="less">
@@ -63,6 +68,7 @@ export default {
   data() {
     return {
       tab: "标签1",
+      active: "TribeIndex",
     };
   },
   methods: {

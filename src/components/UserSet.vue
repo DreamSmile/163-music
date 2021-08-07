@@ -12,36 +12,37 @@
     <div class="block">
       <p class="block_title">基础</p>
       <van-cell title="我的消息" is-link icon="envelop-o" />
-      <van-cell title="我的云贝中心" is-link icon="after-sale" />
-      <van-cell title="创作者中心" is-link icon="bulb-o" />
+      <van-cell title="我的二维码" is-link icon="qr" />
+      <!-- <van-cell title="我的云贝中心" is-link icon="after-sale" /> -->
+      <!-- <van-cell title="创作者中心" is-link icon="bulb-o" /> -->
     </div>
     <!-- 音乐服务 -->
     <div class="block">
       <p class="block_title">音乐服务</p>
-      <van-cell title="云村有票" is-link icon="credit-pay" />
+      <!-- <van-cell title="云村有票" is-link icon="credit-pay" /> -->
       <van-cell title="商城" is-link icon="cart-o" />
-      <van-cell title="游戏专区" is-link icon="smile-o" />
+      <!-- <van-cell title="游戏专区" is-link icon="smile-o" /> -->
       <van-cell title="口袋彩铃" is-link icon="service-o" />
     </div>
     <!-- 其他 -->
     <div class="block">
       <p class="block_title">音乐服务</p>
       <van-cell title="设置" is-link icon="setting-o" />
-      <van-cell title="夜间模式" is-link icon="closed-eye" />
-      <van-cell title="定时关闭" is-link icon="underway-o" />
+      <!-- <van-cell title="夜间模式" is-link icon="closed-eye" /> -->
+      <!-- <van-cell title="定时关闭" is-link icon="underway-o" /> -->
       <van-cell title="边听边存" is-link icon="down" />
-      <van-cell title="在线听歌免流量" is-link icon="send-gift-o" />
+      <!-- <van-cell title="在线听歌免流量" is-link icon="send-gift-o" /> -->
       <van-cell title="音乐黑名单" is-link icon="warning-o" />
-      <van-cell title="青少年模式" is-link icon="manager-o" />
-      <van-cell title="音乐闹钟" is-link icon="bulb-o" />
+      <!-- <van-cell title="青少年模式" is-link icon="manager-o" /> -->
+      <!-- <van-cell title="音乐闹钟" is-link icon="bulb-o" /> -->
     </div>
     <!-- 其他主要设置 -->
     <div class="block">
-      <van-cell title="我的订单" is-link icon="orders-o" />
+      <!-- <van-cell title="我的订单" is-link icon="orders-o" /> -->
       <van-cell title="优惠券" is-link icon="coupon-o" />
       <van-cell title="我的客服" is-link icon="service-o" />
       <van-cell title="分享网易云音乐" is-link icon="share-o" />
-      <van-cell title="关于" is-link icon="question-o" />
+      <van-cell title="关于" is-link to="/about" icon="question-o" />
     </div>
     <button>退出登录/关闭</button>
   </div>

@@ -13,12 +13,12 @@
     <!-- 用户功能 -->
     <div class="fun_box">
       <div class="item" v-for="(item,i) in funList" :key="i">
-        <i class="iconfont">&#xe60c;</i>
+        <i class="iconfont" v-html="item.icon"></i>
         <p>{{item.name}}</p>
       </div>
     </div>
     <!-- 我喜欢的音乐 -->
-    <div class="like_box">
+    <div class="like_box" @click="goSeetDetail">
       <div class="photo photo_bg" :style="{backgroundImage:'url('+$assetsUrl+'user.jpg)'}"><i class="iconfont">&#xe64f;</i></div>
       <div class="like_info">
         <p>我喜欢的音乐</p>
@@ -96,17 +96,20 @@
       <div class="assistant" id="assistant">
         <p class="title">歌单助手</p>
         <p class="msg">你可以从歌单中筛选出</p>
-        <div class="box">
-          <ul>
-            <li><span><em class="bg_red">很久未听</em>的<em class="bg_blue">老歌</em></span></li>
-            <li><span><em class="bg_orange">最近一年</em>收藏的<em class="bg_blue">电子音乐</em></span></li>
-            <li><span>适合<em class="bg_red">夜晚</em>听<em class="bg_orange">催眠音乐</em></span></li>
-          </ul>
-        </div>
+        <van-swipe :autoplay="2000" loop :show-indicators="false" style="height: 2em;" vertical>
+          <van-swipe-item><span><em class="bg_red">很久未听</em>的<em class="bg_blue">老歌</em></span></van-swipe-item>
+          <van-swipe-item><span><em class="bg_orange">最近一年</em>收藏的<em class="bg_blue">电子音乐</em></span></van-swipe-item>
+          <van-swipe-item><span>适合<em class="bg_red">夜晚</em>听<em class="bg_orange">催眠音乐</em></span></van-swipe-item>
+        </van-swipe>
         <button>试试看</button>
       </div>
-      
     </div>
+    <!-- 底部tab -->
+    <van-tabbar v-model="active" active-color="#ee0a24" route>
+      <van-tabbar-item name="FindIndex" replace :to="{path:'/findIndex',query:{isUseTab:true}}" icon="home-o">发现</van-tabbar-item>
+      <van-tabbar-item name="TribeIndex" replace :to="{path:'/tribeIndex',query:{isUseTab:true}}" icon="friends-o">云村</van-tabbar-item>
+      <van-tabbar-item name="MyIndex" replace :to="{path:'/myIndex',query:{isUseTab:true}}" icon="setting-o">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 <style scoped lang="less">
@@ -158,6 +161,11 @@
       i {
         font-size: 24px;
         color: @base-color;
+      }
+    }
+    .item:last-child {
+      i {
+        color: @msg-color;
       }
     }
   }
@@ -319,39 +327,36 @@
         text-align: center;
         color: @msg-color;
         font-size: 12px;
+        margin-bottom: 14px;
       }
-      .box {
-        height: 3em;
-        overflow: hidden;
-        ul {
-          li {
-            margin: 2px 0;
-            span {
-              color: @msg-color;
-              em {
-                margin: 0 2px;
-              }
-            }
-            .bg_red {
-              background-color: #f9d2d2;
-              color: #f31616;
-            }
-            .bg_orange {
-              color: #ff976a;
-              background-color: #f5e7dc;
-            }
-            .bg_blue {
-              color: #1989fa;
-              background-color: #ccddf1;
-            }
-          }
+      span {
+        color: @msg-color;
+        em {
+          margin: 0 2px;
+          border-radius: 99px;
+          display: inline-block;
+          padding: 0 4px;
         }
       }
+      .bg_red {
+        background-color: #f9d2d2;
+        color: #f31616;
+      }
+      .bg_orange {
+        color: #ff976a;
+        background-color: #f5e7dc;
+      }
+      .bg_blue {
+        color: #1989fa;
+        background-color: #ccddf1;
+      }
+
       button {
         background-color: @base-color;
         color: #fff;
         border-radius: 99px;
         padding: 4px 16px;
+        margin-top: 14px;
       }
     }
   }
@@ -365,46 +370,47 @@ export default {
   },
   data() {
     return {
+      active: "MyIndex",
       songSel: 1, //歌单tab
       funList: [
         {
-          icon: "&#xe623;",
+          icon: "&#xe6d8;",
           name: "本地/下载",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe6db;",
+          name: "云盘",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe613;",
+          name: "已购",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe67a;",
+          name: "最近播放",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe7fe;",
+          name: "我的好友",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe62a;",
+          name: "收藏和赞",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe616;",
+          name: "我的播客",
           url: "#",
         },
         {
-          icon: "&#xe623;",
-          name: "本地/下载",
+          icon: "&#xe61f;",
+          name: "音乐应用",
           url: "#",
         },
       ],
@@ -418,6 +424,10 @@ export default {
         block: "center",
         inline: "nearest",
       });
+    },
+    // 去往歌单详情页
+    goSeetDetail() {
+      this.$router.push("/sheetDetail");
     },
   },
 };
