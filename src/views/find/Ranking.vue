@@ -544,7 +544,7 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       .block {
-        width: calc((100vw - 70px) / 3);
+        width: calc((100% - 30px) / 3);
         position: relative;
         margin-bottom: 14px;
         .bg_block {
@@ -562,6 +562,7 @@ export default {
           border-radius: 8px;
           position: relative;
           background: linear-gradient(to bottom left, #92cb98, #4289c1);
+          height: 110px;
           span {
             display: inline-block;
             position: absolute;
@@ -575,7 +576,7 @@ export default {
           }
           h3 {
             text-align: center;
-            line-height: calc((100vw - 70px) / 3);
+            line-height: 110px;
             font-weight: bold;
             font-size: 20px;
             color: #fff;

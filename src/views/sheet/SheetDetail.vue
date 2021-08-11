@@ -231,7 +231,7 @@
 }
 </style>
 <script>
-import SongList from "../../components/SongList";
+import SongList from "../../components/list/SongList";
 export default {
   components: { SongList },
   data() {

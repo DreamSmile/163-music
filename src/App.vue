@@ -17,12 +17,5 @@
   min-height: 100%;
   background-color: @bg-color;
 }
-/deep/.van-tabbar--fixed {
-  right: 0;
-  max-width: 540px;
-}
-/deep/.van-hairline--top-bottom {
-  right: 0;
-  max-width: 540px;
-}
+
 </style>

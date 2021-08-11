@@ -17,7 +17,7 @@
         <div class="icon_bg"><i class="iconfont">&#xe782;</i></div>
         <p>每日推荐</p>
       </div>
-      <div class="item">
+      <div class="item" @click="$router.push('/sheetSquare')">
         <div class="icon_bg"><i class="iconfont">&#xe782;</i></div>
         <p>歌单</p>
       </div>
@@ -269,6 +269,7 @@
           min-height: 3em;
           text-align: left;
           font-size: 12px;
+          margin-top: 6px;
         }
       }
     }

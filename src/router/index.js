@@ -19,12 +19,14 @@ const myIndex = r => require.ensure([], () => r(require('@/views/my/MyIndex')), 
 
 // 搜索界面
 const searchIndex = r => require.ensure([], () => r(require('@/views/search/SearchIndex')), 'searchIndex');
+const showSearch = r => require.ensure([], () => r(require('@/views/search/ShowSearch')), 'showSearch');
+
 // 音乐播放界面
 const playIndex = r => require.ensure([], () => r(require('@/views/play/PlayIndex')), 'playIndex');
 
 // 歌单
 const sheetDetail = r => require.ensure([], () => r(require('@/views/sheet/SheetDetail')), 'SheetDetail');
-
+const sheetSquare = r => require.ensure([], () => r(require('@/views/sheet/SheetSquare')), 'SheetSquare');
 // 设置
 const about = r => require.ensure([], () => (require('@/views/set/About')), 'about');
 
@@ -40,53 +42,63 @@ const routes = [
     path: '/loginIndex',
     name: 'LoginIndex',
     component: loginIndex,
-    meta: { title: '网易云音乐', mname: '登录主入口', hasTab: false }
+    meta: { title: '网易云音乐', mname: '登录主入口' }
   }, {
     path: '/loginPhone',
     name: 'LoginPhone',
     component: loginPhone,
-    meta: { title: '手机号登录', mname: '输入手机号登录', hasTab: false }
+    meta: { title: '手机号登录', mname: '输入手机号登录' }
 
   }, {
     path: '/loginPCode',
     name: 'LoginPCode',
     component: loginPCode,
-    meta: { title: '填写手机验证码', mname: '填写手机登录验证码', hasTab: false }
+    meta: { title: '填写手机验证码', mname: '填写手机登录验证码' }
   }, {
     path: '/findIndex',
     name: 'FindIndex',
     component: findIndex,
-    meta: { keepalive: false, title: '发现', mname: '发现主页面', hasTab: true }
+    meta: { keepalive: false, title: '发现', mname: '发现主页面' }
   }, {
     path: '/ranking',
     name: 'Ranking',
     component: ranking,
-    meta: { title: '排行榜', mname: '发现页中的排行榜', hasTab: false }
+    meta: { title: '排行榜', mname: '发现页中的排行榜' }
   }, {
     path: '/myIndex',
     name: 'MyIndex',
     component: myIndex,
-    meta: { keepalive: false, title: '我的', mname: '我的主页面', hasTab: true }
+    meta: { keepalive: false, title: '我的', mname: '我的主页面' }
   }, {
     path: '/tribeIndex',
     name: 'TribeIndex',
     component: tribeIndex,
-    meta: { keepalive: false, title: '云村', mname: '云村主页面', hasTab: true }
+    meta: { keepalive: false, title: '云村', mname: '云村主页面' }
   }, {
     path: '/searchIndex',
     name: 'SearchIndex',
     component: searchIndex,
-    meta: { title: '搜索', mname: '搜索主页面', hasTab: false }
+    meta: { title: '搜索', mname: '搜索主页面' }
+  }, {
+    path: '/showSearch',
+    name: 'ShowSearch',
+    component: showSearch,
+    meta: { title: '搜索结果', mname: '搜索结果展示页' }
   }, {
     path: '/playIndex',
     name: 'PlayIndex',
     component: playIndex,
-    meta: { title: '音乐播放', mname: '播放音乐主界面', hasTab: false }
+    meta: { title: '音乐播放', mname: '播放音乐主界面' }
   }, {
     path: '/sheetDetail',
     name: 'SheetDetail',
     component: sheetDetail,
-    meta: { title: '歌单详情', mname: '歌单详情展示页', hasTab: false }
+    meta: { title: '歌单详情', mname: '歌单详情展示页' }
+  }, {
+    path: '/sheetSquare',
+    name: 'SheetSquare',
+    component: sheetSquare,
+    meta: { title: '歌单广场', mname: '歌单广场展示页' }
   }, {
     path: '/about',
     name: 'About',
@@ -97,7 +109,7 @@ const routes = [
     path: '/err',
     name: 'Err',
     component: err,
-    meta: { title: '错误', mname: '错误界面', hasTab: false }
+    meta: { title: '错误', mname: '错误界面' }
   }
 ]
 
@@ -116,6 +128,9 @@ router.beforeEach((to, from, next) => {
   }
   if (to.meta.title) {
     document.title = to.meta.title
+  }
+  if (to.name == 'SearchIndex') {
+    Object.assign(to.query, { isUseTab: true })
   }
   next();
 })
