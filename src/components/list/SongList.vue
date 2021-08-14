@@ -1,13 +1,17 @@
 <template>
   <div class="song_list">
-    <van-empty v-if="item.length<1" image="error" description="该歌单没有数据啦~" />
+    <!-- <van-empty v-if="item.length<1" image="error" description="数据啦~" /> -->
+    <div class="no" v-if="item.length<1">该关键词没有单曲啦~</div>
     <div class="row" v-for="(el,i) in item" :key="i">
       <div class="info">
-        <span class="No">{{i+1}}</span>
+        <!-- <span class="No">{{i+1}}</span> -->
         <div class="info_name">
           <p class="name">{{el.name || '未知'}}</p>
           <p class="other">
-            <van-icon class="like" name="like" />{{el.album || '未知'}}-{{el.author || '佚名'}}
+            <!-- <van-icon class="like" name="like" /> -->
+            {{el.al ? el.al.name : el.album.name}}-
+            <span v-if="!el.ar"><em v-for="(user,j) in el.artists" :key="j">{{user.name || '佚名'}}</em></span>
+            <span v-else><em v-for="(user,j) in el.ar" :key="j">{{user.name || '佚名'}}</em></span>
           </p>
         </div>
       </div>
@@ -16,16 +20,17 @@
         <i class="iconfont all">&#xe689;</i>
       </div>
     </div>
-    <div class="over">到底啦~</div>
+    <!-- <div class="over">到底啦~</div> -->
   </div>
-
 </template>
 <script>
 export default {
   props: {
     item: {
       type: Array,
-      default: [],
+      default: () => {
+        return [];
+      },
     },
   },
 };
@@ -37,6 +42,11 @@ export default {
   background-color: #fff;
   /deep/.van-empty {
     min-height: calc(100vh - 286px);
+  }
+  .no {
+    text-align: center;
+    line-height: 30px;
+    color: @msg-color;
   }
   .row {
     height: 60px;
@@ -64,7 +74,6 @@ export default {
           white-space: nowrap;
           display: inline-block;
           color: #333;
-          font-size: 16px;
           width: 100%;
         }
         .other {

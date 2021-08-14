@@ -19,9 +19,15 @@
       </div>
     </div>
     <div class="right">
-      <div class="add_icon" v-show="page=='FindIndex' || page=='TribeIndex'"><i class="iconfont">&#xe617;</i></div>
+      <van-popover v-model="showAdd" placement="bottom-end" trigger="click" :actions="addActions" @select="onAdd">
+        <template #reference>
+          <div class="add_icon" v-show="page=='FindIndex' || page=='TribeIndex'"><i class="iconfont">&#xe617;</i></div>
+        </template>
+      </van-popover>
       <div @click="goSearch" class="search_icon" v-show="page=='MyIndex'"><i class="iconfont">&#xe623;</i></div>
     </div>
+    <!-- 顶部添加按钮 -->
+
     <!-- 顶部左侧弹出用户设置信息 -->
     <van-popup v-model="showUser" get-container="body" position="left" :style="{ width: '80%',height:'100%' }">
       <user-set></user-set>
@@ -118,6 +124,11 @@ export default {
       page: this.$route.name,
       tribe_sel: 1, //云村的tab
       showUser: false,
+      showAdd: false,
+      addActions: [
+        { icon: "photo-o", text: "发图文" },
+        { icon: "video-o", text: "发视频" },
+      ],
     };
   },
   methods: {
@@ -128,6 +139,10 @@ export default {
     // 去搜索界面
     goSearch() {
       this.$router.push("/searchIndex");
+    },
+    // 右上角发布图文或者视频链接
+    onAdd(action) {
+      console.log(action);
     },
   },
 };

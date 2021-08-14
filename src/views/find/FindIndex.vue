@@ -13,7 +13,7 @@
     </div>
     <!-- 图标块 -->
     <div class="icons">
-      <div class="item">
+      <div class="item" @click="$router.push('/sheetDetail')">
         <div class="icon_bg"><i class="iconfont">&#xe782;</i></div>
         <p>每日推荐</p>
       </div>
@@ -33,7 +33,7 @@
         <div class="box_name">
           <span>推荐歌单</span>
         </div>
-        <div class="box_edit">
+        <div class="box_edit" @click="$router.push('/sheetSquare')">
           <button>更多<i class="iconfont more">&#xe629;</i></button>
         </div>
       </div>
@@ -41,13 +41,13 @@
         <div class="item">
           <van-swipe :autoplay="3000" :show-indicators="false" style="height: 100px;width:100px;" vertical>
             <van-swipe-item>
-              <div class="imgs">
+              <div class="imgs" @click="$router.push('/sheetDetail')">
                 <img :src="$assetsUrl+'recommend1.jpg'">
                 <button><i class="iconfont">&#xe769;</i>404万</button>
               </div>
             </van-swipe-item>
             <van-swipe-item>
-              <div class="imgs">
+              <div class="imgs" @click="$router.push('/sheetDetail')">
                 <img :src="$assetsUrl+'recommend2.jpg'">
                 <button><i class="iconfont">&#xe769;</i>4万</button>
               </div>
@@ -55,7 +55,7 @@
           </van-swipe>
           <p>歌单介绍歌</p>
         </div>
-        <div class="item" v-for="(item,i) in 6" :key="i">
+        <div class="item" v-for="(item,i) in 6" :key="i" @click="$router.push('/sheetDetail')">
           <div class="imgs">
             <img :src="$assetsUrl+'recommend1.jpg'">
             <button><i class="iconfont">&#xe769;</i>404万</button>
@@ -79,7 +79,7 @@
       </div>
       <div class="list">
         <div class="page" v-for="(pages,j) in 3" :key="j">
-          <div class="rows" v-for="(row,i) in 3" :key="i">
+          <div class="rows" v-for="(row,i) in 3" :key="i" @click="$router.push('/sheetDetail')">
             <div class="img_box">
               <img :src="$assetsUrl+'recommend2.jpg'" />
               <i class="iconfont">&#xe63a;</i>
@@ -125,7 +125,7 @@
           </van-swipe>
           <p>歌单介绍歌</p>
         </div>
-        <div class="item" v-for="(item,i) in 6" :key="i">
+        <div class="item" v-for="(item,i) in 6" :key="i" @click="$router.push('/sheetDetail')">
           <div class="imgs">
             <img :src="$assetsUrl+'recommend1.jpg'">
             <button><i class="iconfont">&#xe769;</i>404万</button>

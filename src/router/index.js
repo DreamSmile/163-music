@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+// import { $get } from '@/util/https';
+import { $get } from "@/utils/https";
 
 Vue.use(VueRouter)
 const loginIndex = r => require.ensure([], () => r(require('@/views/login/Index')), 'loginIndex');
@@ -117,22 +119,4 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-router.beforeEach((to, from, next) => {
-  if (Array.isArray(to.matched) && to.matched.length == 0) {
-    next({
-      path: "/err",
-      query: { msg: decodeURIComponent('界面走丢啦~') }
-    })
-    return;
-  }
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
-  if (to.name == 'SearchIndex') {
-    Object.assign(to.query, { isUseTab: true })
-  }
-  next();
-})
-
 export default router

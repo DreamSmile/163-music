@@ -1,12 +1,12 @@
 <template>
   <div class="video_list">
     <div class="row" v-for="(item , i) in list" :key="i">
-      <div class="photo">
+      <div class="photo" :style="{backgroundImage:'url('+item.coverUrl+')'}">
         <van-icon name="play" />
       </div>
       <div class="info">
-        <p class="name">{{item.name}}</p>
-        <p class="msg">3.00，by 作者，20万播放</p>
+        <p class="name">{{item.title}}</p>
+        <p class="msg">{{item.playTime}}，by {{item.creator.userName}}，{{item.durationms}}播放</p>
       </div>
     </div>
   </div>
@@ -16,7 +16,9 @@ export default {
   props: {
     list: {
       type: Array,
-      default: [],
+      default: () => {
+        return [];
+      },
     },
   },
 };

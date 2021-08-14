@@ -66,11 +66,11 @@
     <!-- tab编辑弹出层 -->
     <van-popup v-model="showEdit" position="right" close-on-popstate :style="{width:'85%',height:'100%'}">
       <div class="edit_wrap">
-        <div class="box_title top_edit">
-          <h2>我的歌单广场(长按可编辑)</h2>
-          <button @click="isEdit=!isEdit">编辑</button>
+        <div class="box_title">
+          <h2>我的歌单广场<em> ({{isEdit?'拖动可排序':'长按可编辑'}})</em></h2>
+          <button @click="isEdit = !isEdit;">{{isEdit?'完成':'编辑'}}</button>
         </div>
-        <div class="box_btn">
+        <div class="box_btn my_btn_box">
           <button v-for="(my,i) in myType" :key="i" :class="[{no_btn:!my.isEdit}]" @touchstart="mouStart" @touchend="mouEnd(my,i,true)">
             <van-icon v-show="isEdit" name="minus" />{{my.name}}
           </button>
@@ -80,7 +80,7 @@
         <div class="box_title">
           <h2>语种</h2>
         </div>
-        <div class="box_btn">
+        <div class="box_btn lang_btn_box">
           <button v-for="(lang,i) in langType" @touchstart="mouStart" @touchend="mouEnd(lang,i,false)" :key="i" :class="[{no_btn:!lang.isEdit}]">
             <van-icon v-show="isEdit" name="plus" />{{lang.name}}
           </button>
@@ -90,7 +90,7 @@
         <div class="box_title">
           <h2>风格</h2>
         </div>
-        <div class="box_btn">
+        <div class="box_btn style_btn_box">
           <button v-for="(style,i) in styleType" :key="i" :class="[{no_btn:!style.isEdit}]" @touchstart="mouStart" @touchend="mouEnd(style,i,false)">
             <van-icon v-show="isEdit" name="plus" />{{style.name}}
           </button>
@@ -100,7 +100,7 @@
         <div class="box_title">
           <h2>场景</h2>
         </div>
-        <div class="box_btn">
+        <div class="box_btn scene_btn_box">
           <button v-for="(scene,i) in sceneType" :key="i" :class="[{no_btn:!scene.isEdit}]" @touchstart="mouStart" @touchend="mouEnd(scene,i,false)">
             <van-icon v-show="isEdit" name="plus" />{{scene.name}}
           </button>
@@ -110,7 +110,7 @@
         <div class="box_title">
           <h2>情感</h2>
         </div>
-        <div class="box_btn">
+        <div class="box_btn feel_btn_box">
           <button v-for="(feel,i) in feelType" :key="i" :class="[{no_btn:!feel.isEdit}]" @touchstart="mouStart" @touchend="mouEnd(feel,i,false)">
             <van-icon v-show="isEdit" name="plus" />{{feel.name}}
           </button>
@@ -120,7 +120,7 @@
         <div class="box_title">
           <h2>主题</h2>
         </div>
-        <div class="box_btn">
+        <div class="box_btn theme_btn_box">
           <button v-for="(theme,i) in themeType" :key="i" :class="[{no_btn:!theme.isEdit}]" @click="move(theme,i,false)">
             <van-icon v-show="isEdit" name="plus" />{{theme.name}}
           </button>
@@ -289,6 +289,11 @@
       align-items: center;
       justify-content: space-between;
       h2 {
+        em {
+          color: @no-color;
+          font-size: 12px;
+          font-weight: 200;
+        }
       }
       button {
         border: 1px solid @base-color;
@@ -328,14 +333,7 @@ export default {
   data() {
     return {
       active: "推荐",
-      tabList: [
-        { title: "推荐" },
-        { title: "官方" },
-        { title: "视频歌单" },
-        { title: "精品" },
-        { title: "华语" },
-        { title: "流行" },
-      ],
+      tabList: [],
       userSheetList: [
         {
           name: "歌单名称",
@@ -374,7 +372,7 @@ export default {
           id: "23",
         },
       ],
-      showEdit: true, //展示tab编辑页面
+      showEdit: false, //展示tab编辑页面
       isEdit: false, //是否开始编辑歌单tab
       timer: null, //监听长按事件
       time: 0, //长按开始的时间
@@ -467,10 +465,13 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.tabList = JSON.parse(JSON.stringify(this.myType));
+  },
   components: { SheetBlockList },
   methods: {
     // 移动
-    move(el, index, isMy) {
+    async move(el, index, isMy) {
       if (!el.isEdit || !this.isEdit) return;
       let type = null; //数据
       console.log(el);
@@ -501,12 +502,22 @@ export default {
           this.$utils.showToast("最多添加12个类别哦~", { duration: 2000 });
           return;
         }
+        // await this.showAnimation(el.type);
         this.myType.push(JSON.parse(JSON.stringify(el)));
         type[index].isEdit = false;
       }
     },
+    // 动画
+    showAnimation(el) {
+      let newEl = document.createElement("button");
+      newEl.className = "";
+      return new Promise(resolve=>{
+
+      })
+    },
     // 开始长按按钮
-    mouStart() {
+    mouStart(el) {
+      console.log(el);
       this.time = 0;
       clearInterval(this.timer);
       this.timer = setInterval(() => {
@@ -521,6 +532,7 @@ export default {
       } else {
         this.move(el, index, isMy);
       }
+      this.time = 0;
     },
   },
 };

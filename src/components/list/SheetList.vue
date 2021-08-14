@@ -1,10 +1,10 @@
 <template>
   <div class="sheet_list">
     <div class="row" v-for="(item,i) in list" :key="i">
-      <div class="photo"></div>
+      <div class="photo" :style="{backgroundImage:'url('+item.coverImgUrl+')'}"></div>
       <div class="info">
         <p class="name">{{item.name}}</p>
-        <p class="msg">129首，by 哈哈，播放111万次</p>
+        <p class="msg">{{item.trackCount}}首，by {{item.creator.nickname}}，播放{{item.playCount}}次</p>
       </div>
     </div>
   </div>
@@ -14,7 +14,9 @@ export default {
   props: {
     list: {
       type: Array,
-      default: [],
+      default: () => {
+        return [];
+      },
     },
   },
 };

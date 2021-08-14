@@ -2,10 +2,10 @@
   <div class="user_list">
     <div class="row" v-for="(item,i) in list" :key="i">
       <div class="user_info">
-        <div class="photo"></div>
+        <div class="photo" :style="{backgroundImage:'url('+item.avatarUrl+')'}"></div>
         <div class="info">
-          <p class="name">{{item.name}}</p>
-          <p class="msg">粉丝：222万</p>
+          <p class="name">{{item.nickname}}</p>
+          <p class="msg">{{item.signature}}</p>
         </div>
       </div>
       <button>
@@ -20,7 +20,9 @@ export default {
   props: {
     list: {
       type: Array,
-      default: [],
+      default: () => {
+        return [];
+      },
     },
   },
 };

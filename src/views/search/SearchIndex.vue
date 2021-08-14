@@ -1,47 +1,29 @@
 <template>
   <!-- 1：音乐专区超出隐藏透明效果 -->
-  <div class="search_index" :style="{backgroundColor:`${isFirst || tab_sel!=1?'#fff':'#f6f6f6'}`}">
+  <div class="search_index" :style="{backgroundColor:`${isFirst || tab_sel!=1018?'#fff':'#f6f6f6'}`}">
     <!-- 搜索框 -->
-    <div class="search" :style="{backgroundColor:`${isFirst || tab_sel!=1?'#fff':'#f6f6f6'}`}">
+    <div class="search" :style="{backgroundColor:`${isFirst || tab_sel!=1018?'#fff':'#f6f6f6'}`}">
       <i @click="out" class="iconfont">&#xe622;</i>
-      <input type="text" v-model="inpVal" @keyup.enter="searchVal" :placeholder="inpPla" :style="{backgroundColor:`${isFirst || tab_sel!=1?'#fff':'#f6f6f6'}`}" />
+      <input type="text" v-model="inpVal" @keyup.enter="searchVal(inpVal)" :placeholder="inpPla" :style="{backgroundColor:`${isFirst || tab_sel!=1018?'#fff':'#f6f6f6'}`}" />
     </div>
     <!-- 第一次进入展示的搜索信息 -->
     <div class="first_show" v-show="isFirst">
       <!-- 历史记录 -->
-      <div class="history">
+      <div class="history" v-show="$store.state.searchHis.length>0">
         <h2>历史</h2>
         <div class="his_list">
-          <span class="his_item" v-for="(his,i) in 10" :key="i">吴亦凡{{i}}</span>
+          <span class="his_item" v-for="(his,i) in $store.state.searchHis" :key="i">{{his}}</span>
         </div>
-        <i class="iconfont">&#xe652;</i>
+        <i class="iconfont" @click="delHis">&#xe652;</i>
       </div>
       <!-- 热搜榜 -->
-      <div class="hot">
-        <div class="hot_tab">
-          <span :class="{hot_sel:isHot==1}" @click="changeHot(1)">热搜榜</span>
-          <span :class="{hot_sel:isHot==2}" @click="changeHot(2)">视频榜</span>
-          <span :class="{hot_sel:isHot==3}" @click="changeHot(3)">博客榜</span>
-        </div>
-        <div class="page" v-show="isHot==1">
-          <div class="strip" v-for="(strips,i) in 10" :key="i">
+      <div class="hot music_class">
+        <h2>热搜榜</h2>
+        <div class="page">
+          <div class="strip" v-for="(strips,i) in hotList" :key="i" @click="searchVal(strips.searchWord)">
             <span :class="['No',{hots_red: i<3}]">{{i+1}}</span>
-            <span :class="['name',{hots_black: i<3}]">这是热搜榜</span>
-            <i class="iconfont hots_red">&#xe608;</i>
-          </div>
-        </div>
-        <div class="page" v-show="isHot==2">
-          <div class="strip" v-for="(strips,i) in 10" :key="i">
-            <span :class="['No',{hots_red: i<3}]">{{i+1}}</span>
-            <span :class="['name',{hots_black: i<3}]">这是视频榜</span>
-            <i class="iconfont hots_red">&#xe608;</i>
-          </div>
-        </div>
-        <div class="page" v-show="isHot==3">
-          <div class="strip" v-for="(strips,i) in 10" :key="i">
-            <span :class="['No',{hots_red: i<3}]">{{i+1}}</span>
-            <span :class="['name',{hots_black: i<3}]">这是博客榜</span>
-            <i class="iconfont hots_red">&#xe608;</i>
+            <span :class="['name',{hots_black: i<3}]">{{strips.searchWord}}</span>
+            <img :src="strips.iconUrl" />
           </div>
         </div>
       </div>
@@ -72,65 +54,67 @@
     </div>
     <!-- 搜索结果 -->
     <div class="showSearch" v-show="!isFirst">
-      <div class="tabs" :style="{backgroundColor:`${isFirst || tab_sel!=1?'#fff':'#f6f6f6'}`}">
-        <span :class="{isTab:tab_sel==1}" @click="changeTab(1)">综合</span>
-        <span :class="{isTab:tab_sel==2}" @click="changeTab(2)">单曲</span>
-        <span :class="{isTab:tab_sel==3}" @click="changeTab(3)">歌单</span>
-        <span :class="{isTab:tab_sel==4}" @click="changeTab(4)">视频</span>
-        <span :class="{isTab:tab_sel==5}" @click="changeTab(5)">歌手</span>
-        <span :class="{isTab:tab_sel==6}" @click="changeTab(6)">博客</span>
-        <span :class="{isTab:tab_sel==7}" @click="changeTab(7)">歌词</span>
-        <span :class="{isTab:tab_sel==8}" @click="changeTab(8)">专辑</span>
-        <span :class="{isTab:tab_sel==9}" @click="changeTab(9)">声音</span>
-        <span :class="{isTab:tab_sel==10}" @click="changeTab(10)">云圈</span>
-        <span :class="{isTab:tab_sel==11}" @click="changeTab(11)">用户</span>
+      <!-- 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
+ -->
+      <div class="tabs" :style="{backgroundColor:`${isFirst || tab_sel!=1018?'#fff':'#f6f6f6'}`}">
+        <span :class="{isTab:tab_sel==1018}" @click="changeTab(1018,'all')">综合</span>
+        <span :class="{isTab:tab_sel==1}" @click="changeTab(1,'song')">单曲</span>
+        <span :class="{isTab:tab_sel==1000}" @click="changeTab(1000,'sheet')">歌单</span>
+        <span :class="{isTab:tab_sel==1014}" @click="changeTab(1014,'vedio')">视频</span>
+        <!-- <span :class="{isTab:tab_sel==5}" @click="changeTab(5)">歌手</span> -->
+        <!-- <span :class="{isTab:tab_sel==6}" @click="changeTab(6)">博客</span> -->
+        <span :class="{isTab:tab_sel==1006}" @click="changeTab(1006)">歌词</span>
+        <span :class="{isTab:tab_sel==10}" @click="changeTab(10)">专辑</span>
+        <!-- <span :class="{isTab:tab_sel==9}" @click="changeTab(9)">声音</span> -->
+        <!-- <span :class="{isTab:tab_sel==10}" @click="changeTab(10)">云圈</span> -->
+        <span :class="{isTab:tab_sel==1002}" @click="changeTab(1002,'user')">用户</span>
       </div>
       <div class="show">
-        <div class="show_list" v-show="tab_sel==1">
+        <div class="show_list" v-show="tab_sel==1018">
           <!-- 综合 -->
           <div class="block">
             <h2>单曲</h2>
-            <song-list :item="song"></song-list>
-            <div class="more" @click="tab_sel=2">查看更多<em>{{this.inpVal || this.inpPla}}</em>的歌曲
+            <song-list :item="all.song"></song-list>
+            <div class="more" @click="changeTab(1)">查看更多<em>{{this.inpVal || this.inpPla}}</em>的歌曲
               <van-icon name="arrow" />
             </div>
           </div>
           <!-- 歌单 -->
           <div class="block">
             <h2>歌单</h2>
-            <sheet-list :list="song"></sheet-list>
-            <div class="more" @click="tab_sel=3">查看更多<em>{{this.inpVal || this.inpPla}}</em>的歌单
+            <sheet-list :list="all.sheet"></sheet-list>
+            <div class="more" @click="changeTab(1000)">查看更多<em>{{this.inpVal || this.inpPla}}</em>的歌单
               <van-icon name="arrow" />
             </div>
           </div>
           <!-- 视频 -->
           <div class="block">
             <h2>视频</h2>
-            <video-list :list="song"></video-list>
-            <div class="more" @click="tab_sel=4">查看更多<em>{{this.inpVal || this.inpPla}}</em>的视频
+            <video-list :list="all.video"></video-list>
+            <div class="more" @click="changeTab(1014)">查看更多<em>{{this.inpVal || this.inpPla}}</em>的视频
               <van-icon name="arrow" />
             </div>
           </div>
           <!-- 用户 -->
           <div class="block">
             <h2>用户</h2>
-            <user-list :list="song"></user-list>
-            <div class="more" @click="tab_sel=5">查看更多<em>{{this.inpVal || this.inpPla}}</em>的用户
+            <user-list :list="all.user"></user-list>
+            <div class="more" @click="changeTab(1002)">查看更多<em>{{this.inpVal || this.inpPla}}</em>的用户
               <van-icon name="arrow" />
             </div>
           </div>
         </div>
-        <div class="song" v-show="tab_sel==2">
+        <div class="song" v-show="tab_sel==1">
           <song-list :item="song"></song-list>
         </div>
-        <div class="sheet" v-show="tab_sel==3">
-          <sheet-list :list="song"></sheet-list>
+        <div class="sheet" v-show="tab_sel==1000">
+          <sheet-list :list="sheet"></sheet-list>
         </div>
-        <div class="video" v-show="tab_sel==4">
-          <video-list :list="song"></video-list>
+        <div class="video" v-show="tab_sel==1014">
+          <video-list :list="video"></video-list>
         </div>
-        <div class="user" v-show="tab_sel==5">
-          <user-list :list="song"></user-list>
+        <div class="user" v-show="tab_sel==1002">
+          <user-list :list="user"></user-list>
         </div>
       </div>
     </div>
@@ -144,63 +128,210 @@ import UserList from "../../components/list/UserList.vue";
 export default {
   data() {
     return {
-      isFirst: false, //第一次进入该搜索界面展示搜索热点列表
+      isFirst: true, //第一次进入该搜索界面展示搜索热点列表
       isHot: 1, //热搜tab
+      hotList: [],
       inpVal: "", //搜索输入框
       inpPla: "哈哈", //输入框的placeholder，搜索时没有value将使用placeholder作为关键字搜索
-      tab_sel: 1, //搜索到展示的tab
+      tab_sel: 1018, //搜索到展示的tab
+      all: {
+        song: [{ id: 0, name: "", al: { name: "" }, ar: { name: "" } }],
+        sheet: [
+          {
+            id: 0,
+            name: "",
+            coverImgUrl: "",
+            playCount: 0,
+            trackCount: 0,
+            creator: { nickname: "" },
+          },
+        ],
+        video: [
+          {
+            id: 0,
+            title: "",
+            coverUrl: "",
+            durationms: 0,
+            playTime: 0,
+            creator: { name: "" },
+          },
+        ],
+        user: [{ nickname: "", signature: "", avatarUrl: "" }],
+      },
       song: [
         {
-          name: "搜索的歌曲",
-          imgUrl: this.$assetsUrl + "user.jpg",
-          author: "zuoche mingcheng ",
-          album: "专辑名称",
-        },
-        {
-          name: "搜索到的",
-          imgUrl: this.$assetsUrl + "user.jpg",
-          author: "作者名称 ",
-          album: "专辑名称",
-        },
-        {
-          name: "歌曲名称歌曲名称歌曲名称歌曲名称歌曲名称歌曲名称歌曲名称",
-          imgUrl: this.$assetsUrl + "user.jpg",
-          author: "薛之谦",
-          album: "专辑名称",
-        },
-        {
-          name: "搜索到的",
-          imgUrl: this.$assetsUrl + "user.jpg",
-          author: "作者名称 ",
-          album: "专辑名称",
-        },
-        {
-          name: "歌曲名称歌曲名称歌曲名称歌曲名称歌曲名称歌曲名称歌曲名称",
-          imgUrl: this.$assetsUrl + "user.jpg",
-          author: "薛之谦",
-          album: "专辑名称",
+          id: 1325897164,
+          name: "",
+          artists: [
+            {
+              id: 30618494,
+              name: "金瀚",
+              picUrl: null,
+              alias: [],
+              albumSize: 0,
+              picId: 0,
+              img1v1Url:
+                "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              img1v1: 0,
+              trans: null,
+            },
+          ],
+          al: { name: "" },
+          ar: { name: "" },
+          album: {
+            id: 74269067,
+            name: "电视剧 你和我的倾城时光 原声带",
+            artist: {
+              id: 0,
+              name: "",
+              picUrl: null,
+              alias: [],
+              albumSize: 0,
+              picId: 0,
+              img1v1Url:
+                "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              img1v1: 0,
+              trans: null,
+            },
+            publishTime: 1543420800007,
+            size: 28,
+            copyrightId: 1415871,
+            status: 0,
+            picId: 109951163676646740,
+            mark: 0,
+          },
+          duration: 193322,
+          copyrightId: 1415871,
+          status: 0,
+          alias: [],
+          rtype: 0,
+          ftype: 0,
+          mvid: 0,
+          fee: 8,
+          rUrl: null,
+          mark: 131072,
         },
       ],
+      sheet: [
+        {
+          id: 0,
+          name: "",
+          coverImgUrl: "",
+          playCount: 0,
+          trackCount: 0,
+          creator: { nickname: "" },
+        },
+      ],
+      video: [
+        {
+          id: 0,
+          title: "",
+          coverUrl: "",
+          durationms: 0,
+          playTime: 0,
+          creator: { name: "" },
+        },
+      ],
+      user: [{ nickname: "", signature: "", avatarUrl: "" }],
     };
   },
-  components: { SongList, SheetList, VideoList, UserList },
   mounted() {
-    console.log(this.$toast);
+    this.initHot();
   },
+  components: { SongList, SheetList, VideoList, UserList },
   methods: {
+    test() {
+     
+    },
+    // 删除所有历史记录
+    delHis() {
+      this.$utils
+        .showDialog("是否删除所有历史记录？", "询问", {
+          confirmButtonText: "确定",
+          showCancelButton: true,
+          cancelButtonText: "取消",
+        })
+        .then((res) => {
+          this.$store.commit("delSearchHis");
+        })
+        .catch(() => {});
+    },
+    // 热搜榜
+    initHot() {
+      this.$api
+        .getHotSearch()
+        .then((res) => {
+          console.log(res);
+          if (res.code != 200) {
+            this.$utils.showDialog(res.msg);
+            return;
+          }
+          this.hotList = res.data;
+        })
+        .catch((err) => {
+          this.$utils.showDialog(err);
+        });
+    },
     // 更换tab
+    // 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
     changeTab(tabIndex) {
       this.tab_sel = tabIndex;
+      this.$utils.showToast("正在加载中。。", { type: "loading" });
+      let val = !this.inpVal ? this.inpPla : this.inpVal;
+      this.shearchAxios(val, 10, tabIndex);
     },
     // 搜索
-    searchVal() {
-      let val = !this.inpVal ? this.inpPla : this.inpVal;
-      // this.$utils.showToast("搜索：" + val);
-      // setTimeout(() => {
+    searchVal(value) {
+      let val = !value ? this.inpPla : value;
+      this.inpVal = val;
       this.isFirst = false;
-      //   this.$toast.clear();
-      // }, 4000);
-      // this.$router.push({ path: "/showSearch", query: { val: val } });
+      this.$utils.showToast("正在努力查啦~", { forbidClick: true });
+      this.$store.commit("addSearchHis", val);
+      this.shearchAxios(val, 5, 1018);
+    },
+    // 关键字查找
+    shearchAxios(keyword, limit, type) {
+      this.$api
+        .getSearch({
+          keywords: keyword,
+          limit: limit,
+          type: type,
+        })
+        .then((res) => {
+          this.$toast.clear();
+          console.log(res);
+          if (res.code != 200) {
+            this.$utils.showDialog(res.msg);
+            return;
+          }
+          switch (type) {
+            case 1018:
+              Object.assign(this.all, { song: res.result.song.songs });
+              Object.assign(this.all, { sheet: res.result.playList.playLists });
+              Object.assign(this.all, { video: res.result.video.videos });
+              Object.assign(this.all, { user: res.result.user.users });
+              break;
+            case 1000:
+              this.sheet = res.result.playLists;
+              break;
+            case 1:
+              this.song = res.result.songs;
+              break;
+            case 1014:
+              this.video = res.result.videos;
+              break;
+            case 1002:
+              this.user = res.result.users;
+              break;
+            default:
+              break;
+          }
+        })
+        .catch((err) => {
+          this.$toast.clear();
+          console.log(err);
+          this.$utils.showDialog(err);
+        });
     },
     changeHot(num) {
       this.isHot = num;
@@ -285,8 +416,6 @@ export default {
         }
       }
       .page {
-        //   animation: move 0.8s infinite;
-        animation: move 0.3s ease-out;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         width: 100%;
@@ -299,7 +428,7 @@ export default {
           line-height: 28px;
           box-sizing: border-box;
           .No {
-            width: 18px;
+            width: 24px;
             display: inline-block;
           }
           .hots_red {
@@ -317,10 +446,14 @@ export default {
             display: inline-block;
             vertical-align: middle;
           }
-          .iconfont {
-            margin-left: 8px;
+          img {
+            margin-left: 12px;
+            height: 12px;
           }
         }
+      }
+      .show_page {
+        animation: move 0.3s ease-out;
       }
       @keyframes move {
         0% {
@@ -418,7 +551,7 @@ export default {
       right: 0;
       z-index: 2;
       background-color: @bg-color;
-      padding-bottom: 12px;
+      padding: 12px 0;
       span {
         margin-right: 20px;
       }
@@ -430,6 +563,7 @@ export default {
       }
       .isTab {
         position: relative;
+        font-weight: bold;
       }
       .isTab::after {
         content: "";
@@ -465,7 +599,7 @@ export default {
         }
         .more {
           text-align: center;
-          font-size: 10px;
+          font-size: 12px;
           color: @font-msg-color;
           margin: 0 12px;
           box-sizing: border-box;
@@ -475,7 +609,7 @@ export default {
             color: @href-color;
           }
           i {
-            vertical-align: middle;
+            vertical-align: -1px;
           }
         }
       }
